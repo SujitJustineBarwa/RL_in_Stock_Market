@@ -1,5 +1,3 @@
-import pandas as pd
-
 def get_instrument_token(stock_names, exchange='BSE'):
 
   # Load the instruments.csv file
@@ -26,7 +24,7 @@ def get_instrument_token(stock_names, exchange='BSE'):
   return tokens
 
 
-def get_historical_data(kite,stocks,last_n_days = 1,interval = "minute"):
+def get_historical_data(stocks,last_n_days = 1,interval = "minute"):
 
   # Get the instrument tokens for the stocks
   tokens = get_instrument_token(stocks)
@@ -43,7 +41,7 @@ def get_historical_data(kite,stocks,last_n_days = 1,interval = "minute"):
         from_datetime = datetime.datetime.now() - datetime.timedelta(days=last_n_days)     # From last & days
         to_datetime = datetime.datetime.now()
 
-      #print(tokens[i],from_datetime, to_datetime,interval)
+      print(tokens[i],from_datetime, to_datetime,interval)
       data = kite.historical_data(tokens[i],from_datetime, to_datetime,interval)
       historical_data[stocks[i]] = pd.DataFrame(data)
     except Exception as e:
@@ -53,7 +51,7 @@ def get_historical_data(kite,stocks,last_n_days = 1,interval = "minute"):
   return historical_data
 
 
-def get_max_historical_data(kite,stocks, interval="minute",exchange='BSE',show_flg = True):
+def get_max_historical_data(stocks, interval="minute",exchange='BSE',show_flg = True):
   """
   Fetches historical data for a given list of stocks at a specified interval.
 
